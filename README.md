@@ -4,6 +4,7 @@
 
 ### *Engineering Prototype, UX Redesign & Performance Optimization for Philip (@lippihom)*
 
+[![Live Demo: Try Prototype](https://img.shields.io/badge/Live_Demo-Try_Prototype_Live-000000.svg?style=for-the-badge&logo=vercel&logoColor=white)](https://pearlclub-showcase-fxjjolv9c-harshit-dev-27-admins-projects.vercel.app)
 [![Status: Production-Ready](https://img.shields.io/badge/Status-Production--Ready-10B981.svg?style=for-the-badge)](#)
 [![Stack: Next.js + Tailwind](https://img.shields.io/badge/Stack-Next.js%20%2B%20Tailwind-38BDF8.svg?style=for-the-badge)](#)
 [![Performance: 210ms TTFB](https://img.shields.io/badge/Performance-210ms%20TTFB-F59E0B.svg?style=for-the-badge)](#)
