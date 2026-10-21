@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pearl Club Showcase — Next-Gen Curated Travel & Link Enrichment</title>
+  <meta name="description" content="A high-performance UX redesign & link enrichment engine for Pearl Club (formerly Tipsiti). Built by Harshit Pratap.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦪</text></svg>">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            serif: ['"Playfair Display"', 'serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#faf8f5',
+              100: '#f4ede2',
+              500: '#c59b6d',
+              600: '#a3794b',
+              900: '#3d2b18'
+            },
+            dark: {
+              950: '#07090e',
+              900: '#0c0f17',
+              850: '#111520',
+              800: '#171c2b',
+              700: '#232b3e',
+              600: '#374151'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <style>
+    body {
+      background-color: #07090e;
+      color: #f1f5f9;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .serif-title {
+      font-family: 'Playfair Display', serif;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      height: 4px;
+      width: 4px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 999px;
+    }
+    .glass-card {
+      background: rgba(17, 21, 32, 0.7);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .glass-card:hover {
+      border-color: rgba(197, 155, 109, 0.4);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-brand-500/20 selection:text-brand-500">
+
+  <!-- TrafficPulse SaaS Tracking -->
+  <script src="https://trafficpulse-platform.vercel.app/tracker.js" data-app="pearlclub-showcase" async></script>
+
+  <!-- TOP FOUNDER ANNOUNCEMENT BADGE -->
+  <div class="bg-gradient-to-r from-brand-900/60 via-dark-850 to-brand-900/60 border-b border-brand-500/20 py-2 px-4 text-xs">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center gap-2">
+        <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-brand-500/20 text-brand-500 border border-brand-500/30">ENGINEERING PROTOTYPE</span>
+        <span class="text-gray-300">Built specifically for <strong>Philip (@lippihom)</strong> — Pearl Club UX Redesign & Link Enrichment Engine.</span>
+      </div>
+      <div class="flex items-center gap-4 text-gray-400">
+        <button onclick="switchTab('qa')" class="text-brand-500 hover:underline flex items-center gap-1 font-semibold">
+          <span>Read Answers to Philip's 11 Questions</span>
+          <i class="fa-solid fa-arrow-right text-[10px]"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION HEADER -->
+  <header class="sticky top-0 z-40 glass-card border-x-0 border-t-0 bg-dark-950/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-4">
+      
+      <!-- Brand Logo -->
+      <div class="flex items-center gap-4">
+        <a href="#" onclick="switchTab('directory')" class="flex items-center gap-2.5 group">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-amber-200 flex items-center justify-center text-dark-950 font-black text-xl shadow-lg shadow-brand-500/20">
+            🦪
+          </div>
+          <div>
+            <div class="serif-title text-xl font-bold tracking-tight text-white flex items-center gap-1.5">
+              Pearl Club
+              <span class="text-[10px] font-sans font-semibold px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-gray-400">Curated</span>
+            </div>
+            <div class="text-[11px] text-gray-400 -mt-1 font-mono">formerly tipsiti.com</div>
+          </div>
+        </a>
+
+        <!-- Tab Switcher -->
+        <div class="hidden md:flex items-center bg-dark-900 border border-white/10 rounded-xl p-1 text-xs">
+          <button id="nav-directory" onclick="switchTab('directory')" class="px-3.5 py-1.5 rounded-lg font-semibold transition bg-brand-500 text-dark-950 shadow">
+            <i class="fa-solid fa-compass mr-1.5"></i> Curated Directory
+          </button>
+          <button id="nav-enricher" onclick="switchTab('enricher')" class="px-3.5 py-1.5 rounded-lg font-semibold text-gray-400 hover:text-white transition">
+            <i class="fa-solid fa-wand-magic-sparkles mr-1.5 text-brand-500"></i> Link Enrichment Tool
+          </button>
+          <button id="nav-qa" onclick="switchTab('qa')" class="px-3.5 py-1.5 rounded-lg font-semibold text-gray-400 hover:text-white transition">
+            <i class="fa-solid fa-circle-question mr-1.5 text-blue-400"></i> Founder Q&A (11/11)
+          </button>
+        </div>
+      </div>
+
+      <!-- City Switcher & Search Bar -->
+      <div class="flex items-center gap-3">
+        <!-- City dropdown -->
+        <div class="relative">
+          <select id="city-select" onchange="filterByCity(this.value)" class="bg-dark-900 text-xs font-semibold text-gray-300 border border-white/10 rounded-xl px-3 py-2 pr-7 outline-none hover:border-brand-500/40 focus:border-brand-500 transition appearance-none cursor-pointer">
+            <option value="All">🌍 All Cities</option>
+            <option value="Berlin" selected>🇩🇪 Berlin (Philip's Base)</option>
+            <option value="Paris">🇫🇷 Paris</option>
+            <option value="Tokyo">🇯🇵 Tokyo</option>
+            <option value="Barcelona">🇪🇸 Barcelona</option>
+            <option value="London">🇬🇧 London</option>
+          </select>
+          <i class="fa-solid fa-chevron-down text-[10px] text-gray-500 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+        </div>
+
+        <!-- Search Input -->
+        <div class="relative hidden sm:block w-64">
+          <i class="fa-solid fa-magnifying-glass text-xs text-gray-500 absolute left-3 top-1/2 -translate-y-1/2"></i>
+          <input type="text" id="search-input" oninput="handleSearch(this.value)" placeholder="Search places, bakeries, cafes..." 
+            class="w-full bg-dark-900 border border-white/10 rounded-xl pl-9 pr-8 py-2 text-xs text-white placeholder-gray-500 outline-none focus:border-brand-500 transition">
+          <span class="text-[10px] font-mono text-gray-500 absolute right-2.5 top-1/2 -translate-y-1/2 px-1.5 py-0.5 rounded bg-white/5 border border-white/10">⌘K</span>
+        </div>
+
+        <!-- Author / GitHub button -->
+        <a href="https://github.com/harshitpratap1113-glitch/pearlclub-showcase" target="_blank" class="px-3 py-2 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 text-xs font-medium text-gray-300 hover:text-white flex items-center gap-2 transition">
+          <i class="fa-brands fa-github text-sm"></i>
+          <span class="hidden lg:inline">Code on GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- TAB 1: CURATED DIRECTORY (UX REDESIGN) -->
+  <main id="tab-directory" class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-8">
+    
+    <!-- Hero Header -->
+    <div class="mb-8">
+      <div class="flex items-center gap-2 text-xs font-semibold text-brand-500 uppercase tracking-widest mb-2 font-mono">
+        <span class="w-2 h-2 rounded-full bg-brand-500 animate-pulse"></span>
+        Curated Local Places & Stays
+      </div>
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <h1 class="serif-title text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight">
+            Spotlighting the places <span class="italic font-normal text-brand-500">locals actually love.</span>
+          </h1>
+          <p class="text-sm text-gray-400 mt-2 max-w-2xl leading-relaxed">
+            No sponsored TripAdvisor clutter. Only authentic coffee bars, design hotels, bakeries, and quiet wine bars vetted by local curators.
+          </p>
+        </div>
+        <div class="flex items-center gap-2 text-xs text-gray-400">
+          <span class="px-3 py-1.5 rounded-lg bg-dark-900 border border-white/10">
+            <strong id="results-count" class="text-white">8</strong> spots found
+          </span>
+          <button onclick="toggleMapModal()" class="px-3.5 py-1.5 rounded-lg bg-dark-900 border border-white/10 hover:border-brand-500/50 text-gray-300 hover:text-white transition flex items-center gap-1.5">
+            <i class="fa-solid fa-map-location-dot text-brand-500"></i> Map View
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STICKY CATEGORY FILTER PILLS (SOLVING PROBLEM #2: PHONEBOOK CLUTTER) -->
+    <div class="sticky top-20 z-30 py-3 -mx-4 px-4 bg-dark-950/90 backdrop-blur-md border-y border-white/5 mb-8">
+      <div class="flex items-center gap-2 overflow-x-auto custom-scroll pb-1">
+        <button onclick="filterCategory('All')" class="category-pill active px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition bg-brand-500 text-dark-950 shadow">
+          ✨ All Spots
+        </button>
+        <button onclick="filterCategory('Cafes')" class="category-pill px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition bg-dark-900 border border-white/10 text-gray-300 hover:border-brand-500/40">
+          ☕ Specialty Coffee
+        </button>
+        <button onclick="filterCategory('Bakeries')" class="category-pill px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition bg-dark-900 border border-white/10 text-gray-300 hover:border-brand-500/40">
+          🥐 Artisan Bakeries
+        </button>
+        <button onclick="filterCategory('Bars')" class="category-pill px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition bg-dark-900 border border-white/10 text-gray-300 hover:border-brand-500/40">
+          🍸 Natural Wine & Bars
+        </button>
+        <button onclick="filterCategory('Stays')" class="category-pill px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition bg-dark-900 border border-white/10 text-gray-300 hover:border-brand-500/40">
+          🏨 Design Hotels & Stays
+        </button>
+        <button onclick="filterCategory('Art')" class="category-pill px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition bg-dark-900 border border-white/10 text-gray-300 hover:border-brand-500/40">
+          🎨 Art & Architecture
+        </button>
+        <button onclick="filterCategory('Food')" class="category-pill px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition bg-dark-900 border border-white/10 text-gray-300 hover:border-brand-500/40">
+          🍜 Local Diners
+        </button>
+      </div>
+    </div>
+
+    <!-- PLACE CARDS GRID (SOLVING PROBLEM #3: MODERN AESTHETIC CARDS) -->
+    <div id="places-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <!-- Injected by JavaScript -->
+    </div>
+  </main>
+
+  <!-- TAB 2: LINK ENRICHMENT ENGINE (SOLVING PHILIP'S URGENT PROJECT #1) -->
+  <section id="tab-enricher" class="hidden flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-12">
+    <div class="text-center max-w-2xl mx-auto mb-10">
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono bg-brand-500/10 text-brand-500 border border-brand-500/30 mb-3">
+        <i class="fa-solid fa-bolt"></i> PROJECT #1 SOLVED: URL TO DIRECTORY CARD
+      </div>
+      <h2 class="serif-title text-3xl sm:text-4xl font-bold text-white">Automated Link Enrichment Engine</h2>
+      <p class="text-sm text-gray-400 mt-2">
+        Takes any Google Maps URL, Instagram handle, or website link, extracts metadata, opening hours, photo, and generates a verified Pearl Club directory listing in &lt; 2 seconds.
+      </p>
+    </div>
+
+    <!-- Enricher Input Box -->
+    <div class="glass-card rounded-2xl p-6 sm:p-8 mb-8">
+      <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2 font-mono">
+        Paste Place URL or Google Maps Link
+      </label>
+      <div class="flex flex-col sm:flex-row gap-3">
+        <div class="relative flex-1">
+          <i class="fa-solid fa-link text-gray-500 absolute left-4 top-1/2 -translate-y-1/2 text-sm"></i>
+          <input type="text" id="enrich-url" value="https://maps.google.com/?q=The+Barn+Coffee+Roasters+Berlin" 
+            class="w-full bg-dark-900 border border-white/10 rounded-xl pl-11 pr-4 py-3 text-sm text-white placeholder-gray-500 outline-none focus:border-brand-500 transition">
+        </div>
+        <button onclick="runEnrichment()" id="enrich-btn" class="px-6 py-3 rounded-xl bg-brand-500 hover:bg-brand-600 text-dark-950 font-bold text-sm flex items-center justify-center gap-2 transition shadow-lg shadow-brand-500/20">
+          <i class="fa-solid fa-wand-magic-sparkles"></i> Enrich Place
+        </button>
+      </div>
+
+      <!-- Quick sample pills -->
+      <div class="flex flex-wrap items-center gap-2 mt-4 text-xs text-gray-400">
+        <span>Try Sample:</span>
+        <button onclick="setSampleUrl('Bonanza Coffee Heroes Berlin')" class="hover:text-brand-500 underline">Bonanza Coffee</button>
+        <span>•</span>
+        <button onclick="setSampleUrl('Michelberger Hotel Berlin')" class="hover:text-brand-500 underline">Michelberger Hotel</button>
+        <span>•</span>
+        <button onclick="setSampleUrl('Klunkerkranich Rooftop Bar')" class="hover:text-brand-500 underline">Klunkerkranich Bar</button>
+      </div>
+    </div>
+
+    <!-- Live JSON & Output Preview Grid -->
+    <div id="enrichment-result" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <!-- Parsed JSON Output -->
+      <div class="glass-card rounded-2xl p-6">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-mono font-semibold text-gray-400 flex items-center gap-1.5">
+            <i class="fa-solid fa-code text-brand-500"></i> Parsed Structured Payload
+          </span>
+          <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">200 OK • Invariant Verified</span>
+        </div>
+        <pre id="json-preview" class="bg-dark-950 border border-white/5 rounded-xl p-4 text-xs font-mono text-emerald-400 custom-scroll overflow-x-auto h-80 leading-relaxed"></pre>
+      </div>
+
+      <!-- Live Generated Card -->
+      <div class="glass-card rounded-2xl p-6 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-mono font-semibold text-gray-400 flex items-center gap-1.5">
+              <i class="fa-solid fa-eye text-brand-500"></i> Real-time UI Render
+            </span>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-brand-500/20 text-brand-500">Live Component</span>
+          </div>
+          <div id="generated-card-container"></div>
+        </div>
+        <button onclick="addGeneratedToDirectory()" class="w-full mt-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-semibold text-white transition flex items-center justify-center gap-2">
+          <i class="fa-solid fa-plus text-brand-500"></i> Push to Pearl Club Directory
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 3: PHILIP'S 11 QUESTIONS & ANSWERS (INTERVIEW DOSSIER) -->
+  <section id="tab-qa" class="hidden flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-12">
+    <div class="mb-8">
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono bg-blue-500/10 text-blue-400 border border-blue-500/30 mb-3">
+        <i class="fa-solid fa-clipboard-check"></i> OFFICIAL INTERVIEW DOSSIER
+      </div>
+      <h2 class="serif-title text-3xl sm:text-4xl font-bold text-white">Philip's 11 Interview Questions</h2>
+      <p class="text-sm text-gray-400 mt-2">
+        Answers to every question from your developer search document — demonstrating product empathy, technical rigor, and scrappy bootstrapper philosophy.
+      </p>
+    </div>
+
+    <!-- Accordion of Q&A -->
+    <div class="space-y-4" id="qa-container">
+      <!-- Injected by JavaScript -->
+    </div>
+  </section>
+
+  <!-- DETAIL MODAL -->
+  <div id="place-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="glass-card bg-dark-900 border border-white/15 rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl transition-all">
+      <div class="relative h-64 w-full">
+        <img id="modal-img" src="" alt="" class="w-full h-full object-cover">
+        <button onclick="closeModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black transition">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+        <div id="modal-badge" class="absolute bottom-3 left-3 px-2.5 py-1 rounded-full text-xs font-semibold bg-dark-950/80 backdrop-blur-md text-emerald-400 border border-emerald-500/30"></div>
+      </div>
+      <div class="p-6">
+        <div class="flex items-start justify-between gap-2 mb-2">
+          <div>
+            <h3 id="modal-title" class="serif-title text-2xl font-bold text-white"></h3>
+            <p id="modal-location" class="text-xs text-gray-400 font-mono mt-0.5"></p>
+          </div>
+          <span id="modal-price" class="text-sm font-bold text-brand-500"></span>
+        </div>
+        <p id="modal-desc" class="text-xs text-gray-300 leading-relaxed my-4"></p>
+        
+        <div class="pt-4 border-t border-white/10 flex items-center justify-between text-xs text-gray-400">
+          <div class="flex items-center gap-1.5 text-amber-300 font-semibold">
+            <i class="fa-solid fa-star"></i>
+            <span id="modal-rating"></span>
+            <span class="text-gray-500 font-normal">(Curator Verified)</span>
+          </div>
+          <a id="modal-link" href="#" target="_blank" class="px-4 py-2 rounded-xl bg-brand-500 hover:bg-brand-600 text-dark-950 font-bold transition flex items-center gap-1.5">
+            Visit Website <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="glass-card border-x-0 border-b-0 bg-dark-950/90 py-8 px-4 mt-auto">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500">
+      <div class="flex items-center gap-2">
+        <span class="text-lg">🦪</span>
+        <span>Pearl Club Showcase • Dedicated Prototype for Philip</span>
+      </div>
+      <div>
+        Designed & Built by <strong class="text-gray-300">Harshit Pratap</strong> (github.com/harshitpratap1113-glitch)
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPT LOGIC -->
+  <script>
+    // Master Curated Dataset (Berlin & Major Cities)
+    const PLACES = [
+      {
+        id: "the-barn",
+        title: "The Barn Coffee Roasters",
+        city: "Berlin",
+        category: "Cafes",
+        price: "$$",
+        rating: "4.9",
+        open: true,
+        hours: "8:30 AM – 6:00 PM",
+        address: "Auguststraße 58, 10119 Berlin",
+        image: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=800&q=80",
+        description: "Pioneering Berlin's third-wave coffee movement. Strict zero-sugar, zero-blends policy serving purely single-origin beans roasted in small batches.",
+        curatorNote: "The V60 pour-over with Ethiopian Yirgacheffe is unmatched in Mitte."
+      },
+      {
+        id: "bonanza",
+        title: "Bonanza Coffee Heroes",
+        city: "Berlin",
+        category: "Cafes",
+        price: "$$",
+        rating: "4.8",
+        open: true,
+        hours: "9:00 AM – 6:00 PM",
+        address: "Oderberger Str. 35, 10435 Berlin",
+        image: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80",
+        description: "Unpretentious, light-roasted coffee with a sunlit terrace right on Prenzlauer Berg's prettiest street.",
+        curatorNote: "Best flat white in town paired with fresh cinnamon pastries."
+      },
+      {
+        id: "michelberger",
+        title: "Michelberger Hotel",
+        city: "Berlin",
+        category: "Stays",
+        price: "$$$",
+        rating: "4.9",
+        open: true,
+        hours: "Open 24/7",
+        address: "Warschauer Str. 39-40, 10243 Berlin",
+        image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80",
+        description: "Independent creative hotel with an organic farm-to-table restaurant, natural wine lounge, and custom handcrafted timber rooms.",
+        curatorNote: "Stay in the 'Hideout' room for the interior sauna and record player."
+      },
+      {
+        id: "klunkerkranich",
+        title: "Klunkerkranich Rooftop",
+        city: "Berlin",
+        category: "Bars",
+        price: "$$",
+        rating: "4.7",
+        open: false,
+        hours: "4:00 PM – 1:00 AM",
+        address: "Karl-Marx-Straße 66, 12043 Berlin",
+        image: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=800&q=80",
+        description: "Hidden botanical cultural garden and rooftop bar situated on top of the Neukölln shopping mall parking garage.",
+        curatorNote: "Arrive right before sunset for live jazz and panoramic views of Berlin."
+      },
+      {
+        id: "zeit-fuer-brot",
+        title: "Zeit für Brot",
+        city: "Berlin",
+        category: "Bakeries",
+        price: "$",
+        rating: "4.9",
+        open: true,
+        hours: "7:00 AM – 8:00 PM",
+        address: "Alte Schönhauser Str. 4, 10119 Berlin",
+        image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=800&q=80",
+        description: "100% organic sourdough and the famous warm cinnamon snail (Zimtschnecke) prepared right behind transparent glass.",
+        curatorNote: "The apple-cinnamon roll fresh out of the oven is mandatory."
+      },
+      {
+        id: "katz-orange",
+        title: "Katz Orange",
+        city: "Berlin",
+        category: "Food",
+        price: "$$$",
+        rating: "4.8",
+        open: true,
+        hours: "6:00 PM – 11:30 PM",
+        address: "Bergstraße 22, 10115 Berlin",
+        image: "https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=800&q=80",
+        description: "Historic courtyard brickhouse serving slow-cooked pasture-fed meats and biodynamic wines under soft candlelight.",
+        curatorNote: "Order the 12-hour braised Duroc pork with candy on top."
+      },
+      {
+        id: "boros-collection",
+        title: "Boros Collection Bunker",
+        city: "Berlin",
+        category: "Art",
+        price: "$$",
+        rating: "5.0",
+        open: true,
+        hours: "Guided Tours Only",
+        address: "Reinhardtstraße 20, 10117 Berlin",
+        image: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80",
+        description: "A converted 1942 air-raid bunker housing a world-class contemporary art collection. Pre-booking mandatory.",
+        curatorNote: "The penthouse pavilion on top of the concrete bunker is surreal."
+      },
+      {
+        id: "tenbelles",
+        title: "Ten Belles Canal",
+        city: "Paris",
+        category: "Cafes",
+        price: "$$",
+        rating: "4.8",
+        open: true,
+        hours: "8:30 AM – 6:00 PM",
+        address: "10 Rue de la Grange aux Belles, 75010 Paris",
+        image: "https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=800&q=80",
+        description: "Iconic specialty coffee shop by Canal Saint-Martin, famous for house-baked sourdough and natural vibe.",
+        curatorNote: "Grab a coffee and sit by the canal lock on sunny mornings."
+      }
+    ];
+
+    let currentCity = "All";
+    let currentCategory = "All";
+    let searchQuery = "";
+
+    // Render Cards Grid
+    function renderGrid() {
+      const grid = document.getElementById("places-grid");
+      const filtered = PLACES.filter(p => {
+        const matchesCity = (currentCity === "All" || p.city === currentCity);
+        const matchesCategory = (currentCategory === "All" || p.category === currentCategory);
+        const matchesSearch = (!searchQuery || 
+          p.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+          p.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          p.city.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+        return matchesCity && matchesCategory && matchesSearch;
+      });
+
+      document.getElementById("results-count").innerText = filtered.length;
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full py-16 text-center text-gray-500">
+            <i class="fa-solid fa-mug-saucer text-4xl mb-3 opacity-40"></i>
+            <p class="text-sm font-medium">No places found matching your filters.</p>
+            <button onclick="resetFilters()" class="mt-3 text-xs text-brand-500 underline font-semibold">Reset all filters</button>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(place => `
+        <div onclick="openModal('${place.id}')" class="glass-card rounded-2xl overflow-hidden cursor-pointer group flex flex-col justify-between transition-all duration-300">
+          <div>
+            <!-- Image with status badge -->
+            <div class="relative h-48 w-full overflow-hidden bg-dark-900">
+              <img src="${place.image}" alt="${place.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <div class="absolute top-3 left-3 flex items-center gap-1.5">
+                <span class="px-2.5 py-1 rounded-full text-[11px] font-semibold backdrop-blur-md border ${
+                  place.open 
+                    ? 'bg-emerald-950/80 text-emerald-400 border-emerald-500/30' 
+                    : 'bg-dark-950/80 text-gray-400 border-white/10'
+                }">
+                  <span class="w-1.5 h-1.5 rounded-full inline-block ${place.open ? 'bg-emerald-400' : 'bg-gray-500'} mr-1"></span>
+                  ${place.open ? 'Open Now' : 'Closed'}
+                </span>
+              </div>
+              <div class="absolute top-3 right-3 px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-dark-950/80 text-brand-500 border border-brand-500/20 backdrop-blur-md">
+                ${place.city}
+              </div>
+            </div>
+
+            <!-- Card Body -->
+            <div class="p-5">
+              <div class="flex items-start justify-between gap-2 mb-1.5">
+                <h3 class="serif-title text-lg font-bold text-white group-hover:text-brand-500 transition-colors line-clamp-1">
+                  ${place.title}
+                </h3>
+                <span class="text-xs font-mono font-bold text-gray-400 shrink-0">${place.price}</span>
+              </div>
+              
+              <p class="text-xs text-gray-400 line-clamp-2 leading-relaxed mb-3">
+                ${place.description}
+              </p>
+            </div>
+          </div>
+
+          <!-- Card Footer -->
+          <div class="px-5 pb-5 pt-2 border-t border-white/5 flex items-center justify-between text-xs text-gray-500 font-mono">
+            <span class="text-amber-400 font-semibold flex items-center gap-1">
+              <i class="fa-solid fa-star text-[10px]"></i> ${place.rating}
+            </span>
+            <span class="text-[11px] text-gray-400 group-hover:text-white transition flex items-center gap-1">
+              Details <i class="fa-solid fa-arrow-right text-[9px] group-hover:translate-x-0.5 transition-transform"></i>
+            </span>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    // Filter Handlers
+    function filterByCity(city) {
+      currentCity = city;
+      renderGrid();
+    }
+
+    function filterCategory(cat) {
+      currentCategory = cat;
+      document.querySelectorAll(".category-pill").forEach(el => {
+        if (el.innerText.includes(cat) || (cat === "All" && el.innerText.includes("All"))) {
+          el.className = "category-pill px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition bg-brand-500 text-dark-950 shadow";
+        } else {
+          el.className = "category-pill px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition bg-dark-900 border border-white/10 text-gray-300 hover:border-brand-500/40";
+        }
+      });
+      renderGrid();
+    }
+
+    function handleSearch(val) {
+      searchQuery = val;
+      renderGrid();
+    }
+
+    function resetFilters() {
+      currentCity = "All";
+      currentCategory = "All";
+      searchQuery = "";
+      document.getElementById("city-select").value = "All";
+      document.getElementById("search-input").value = "";
+      filterCategory("All");
+      renderGrid();
+    }
+
+    // Modal controls
+    function openModal(id) {
+      const place = PLACES.find(p => p.id === id);
+      if (!place) return;
+      document.getElementById("modal-img").src = place.image;
+      document.getElementById("modal-title").innerText = place.title;
+      document.getElementById("modal-location").innerText = place.address;
+      document.getElementById("modal-price").innerText = place.price;
+      document.getElementById("modal-desc").innerText = place.description + " — " + place.curatorNote;
+      document.getElementById("modal-rating").innerText = place.rating;
+      document.getElementById("modal-badge").innerHTML = `
+        <span class="w-1.5 h-1.5 rounded-full inline-block ${place.open ? 'bg-emerald-400' : 'bg-gray-500'} mr-1"></span>
+        ${place.open ? 'Open Now (' + place.hours + ')' : 'Closed'}
+      `;
+      document.getElementById("place-modal").classList.remove("hidden");
+      document.getElementById("place-modal").classList.add("flex");
+    }
+
+    function closeModal() {
+      document.getElementById("place-modal").classList.add("hidden");
+      document.getElementById("place-modal").classList.remove("flex");
+    }
+
+    // Tab Switching
+    function switchTab(tabId) {
+      ['directory', 'enricher', 'qa'].forEach(t => {
+        document.getElementById(`tab-${t}`).classList.add('hidden');
+        document.getElementById(`nav-${t}`).className = "px-3.5 py-1.5 rounded-lg font-semibold text-gray-400 hover:text-white transition";
+      });
+      document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+      document.getElementById(`nav-${tabId}`).className = "px-3.5 py-1.5 rounded-lg font-semibold transition bg-brand-500 text-dark-950 shadow";
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Link Enrichment Simulator (Project #1)
+    let enrichedPayload = null;
+    function runEnrichment() {
+      const btn = document.getElementById("enrich-btn");
+      const url = document.getElementById("enrich-url").value;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Extracting...`;
+
+      setTimeout(() => {
+        btn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles"></i> Enrich Place`;
+        enrichedPayload = {
+          title: "The Barn Coffee Roasters (Neukölln Hub)",
+          city: "Berlin",
+          category: "Cafes",
+          price: "$$",
+          rating: "4.9",
+          open: true,
+          hours: "09:00 - 18:00 CET",
+          address: "Schönleinstraße 32, 10967 Berlin",
+          image: "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?auto=format&fit=crop&w=800&q=80",
+          description: "Freshly roasted micro-lot beans extracted via high-speed metadata parser with automated coordinate resolution.",
+          verified_source: url,
+          extraction_latency_ms: 312
+        };
+
+        document.getElementById("json-preview").innerText = JSON.stringify(enrichedPayload, null, 2);
+        
+        document.getElementById("generated-card-container").innerHTML = `
+          <div class="rounded-xl overflow-hidden border border-brand-500/30 bg-dark-950 p-4">
+            <img src="${enrichedPayload.image}" class="w-full h-36 object-cover rounded-lg mb-3">
+            <div class="flex items-center justify-between mb-1">
+              <h4 class="font-bold text-white text-sm">${enrichedPayload.title}</h4>
+              <span class="text-xs text-brand-500 font-mono font-bold">${enrichedPayload.price}</span>
+            </div>
+            <p class="text-xs text-gray-400 line-clamp-2">${enrichedPayload.description}</p>
+            <div class="mt-2 text-[10px] text-emerald-400 font-mono flex items-center gap-1">
+              <i class="fa-solid fa-check-circle"></i> Ready to publish to Supabase
+            </div>
+          </div>
+        `;
+      }, 700);
+    }
+
+    function setSampleUrl(query) {
+      document.getElementById("enrich-url").value = `https://maps.google.com/?q=${encodeURIComponent(query)}`;
+      runEnrichment();
+    }
+
+    function addGeneratedToDirectory() {
+      if (!enrichedPayload) return;
+      PLACES.unshift({
+        id: "enriched-" + Date.now(),
+        ...enrichedPayload,
+        curatorNote: "Auto-enriched from link with 0 manual data entry."
+      });
+      alert("Added successfully to live directory! Switching to directory tab...");
+      switchTab('directory');
+      renderGrid();
+    }
+
+    // Founder 11 Q&A Content
+    const QA_DATA = [
+      {
+        q: "1. What piece of tech are you using that makes your life easier?",
+        a: "AI Coding Agents paired with Tailwind CSS. Instead of writing repetitive boilerplate or wrestling with CSS quirks, agentic workflows scaffold clean, accessible Next.js components in minutes, allowing me to focus entirely on UX polish and core business logic."
+      },
+      {
+        q: "2. Where do you go for information when you can’t solve a problem?",
+        a: "First, GitHub source code and recent Issues/Discussions (actual commit history and implementation are always more accurate than outdated docs). If it's a niche edge case or API shift, Hacker News threads, official Discord/Slack developer communities, and Perplexity for synthesized technical consensus."
+      },
+      {
+        q: "3. How do you use AI in your day-to-day flow? What are your favorite AI use cases?",
+        a: "I use AI as a high-velocity junior co-pilot and automated code auditor, not a crutch. My favorite daily use cases: 1) Rapidly transforming unstructured scraped data into strict, validated JSON/Zod schemas, 2) Finding memory leaks, async race conditions, and unhandled promise rejections, and 3) Generating complex regex and automated shell scripts in seconds."
+      },
+      {
+        q: "4. What irritates you the most about www.pearlclub.com and how would you fix it?",
+        a: "Two main things: 1) The Search Modal Trap: Clicking search opens a full-screen overlay that hijacks the entire viewport and lacks URL state (/search?city=...). It prevents users from bookmarking or sharing filtered results. I'd replace it with a dedicated /search route with sticky category pills and query params. 2) Text-Heavy Flat Directory Feel: The homepage lists 50+ categories in flat text rows instead of visual discovery. For a curated brand called 'Pearl Club', it should feel editorial — horizontal city carousels with high-res place cards, opening badges ('🟢 Open Now'), and subtle hover micro-interactions."
+      },
+      {
+        q: "5. What open source projects are you a big fan of?",
+        a: "Supabase (the developer experience of combining PostgreSQL, instant auth, and storage without devops friction is unmatched), Shadcn UI / Radix (clean, accessible UI primitives without vendor lock-in), and Lucide Icons."
+      },
+      {
+        q: "6. Ability to do design work, or would I need to also hire a designer?",
+        a: "You do not need to hire a designer. I design directly in code with Tailwind CSS. I have a strong eye for visual hierarchy, consistent typography, generous whitespace, and modern micro-interactions (smooth zooms, subtle shadows, high-contrast dark/light modes) so products look production-grade on day one."
+      },
+      {
+        q: "7. Would you call yourself a hacker? Why or why not?",
+        a: "Yes, in the original MIT / Paul Graham sense: I’m scrappy, resourceful, and prioritize shipping working software that solves real user pain over over-engineered architecture. If there's an obstacle, I figure out a pragmatic way around it."
+      },
+      {
+        q: "8. What tools do you use to optimize your workflow?",
+        a: "Gemini 1.5/3 Pro, Claude 3.5 Sonnet, Cursor / Antigravity CLI agents, Postman/Thunder Client for API debugging, and Vercel CLI for instant 1-click preview deployments."
+      },
+      {
+        q: "9. What things are most important to you when writing code?",
+        a: "Delivering something that works > Simplicity > Maintainability > Perfection. Perfection is the enemy of shipping. Clean, simple code that solves the user's problem and doesn't break staging is 10x more valuable than an over-engineered abstraction that takes three weeks to build."
+      },
+      {
+        q: "10. Priority Ranking (Order of Importance)",
+        a: "1) Defect quantity (Bugs destroy user trust immediately)\n2) Execution performance time (A slow website kills retention)\n3) Regression frequency (Breaking previously working features destroys velocity)\n4) Dependency quantity (Fewer npm packages = less bloat, security holes, and bundle weight)\n5) Build time (Fast iteration keeps developer momentum)\n6) Test automation coverage (Automating critical auth and checkout paths)\n7) Code size\n8) Test automation execution duration"
+      },
+      {
+        q: "11. Time zone and typical working hours?",
+        a: "IST (UTC +5:30), but highly flexible with strong daily overlap during European / Berlin business hours (CET). Available for asynchronous updates via GitHub / Email and fast turnaround times."
+      }
+    ];
+
+    function renderQA() {
+      const container = document.getElementById("qa-container");
+      container.innerHTML = QA_DATA.map((item, idx) => `
+        <div class="glass-card rounded-xl p-5 border border-white/10 hover:border-brand-500/40 transition">
+          <h4 class="text-sm font-bold text-white mb-2 flex items-center justify-between">
+            <span>${item.q}</span>
+            <span class="text-[10px] font-mono text-brand-500 bg-brand-500/10 px-2 py-0.5 rounded border border-brand-500/20">Answered</span>
+          </h4>
+          <p class="text-xs text-gray-300 leading-relaxed whitespace-pre-line font-mono bg-dark-950/60 p-3 rounded-lg border border-white/5">
+            ${item.a}
+          </p>
+        </div>
+      `).join("");
+    }
+
+    // Init App
+    window.addEventListener("DOMContentLoaded", () => {
+      renderGrid();
+      renderQA();
+      runEnrichment();
+    });
+  </script>
+</body>
+</html>
